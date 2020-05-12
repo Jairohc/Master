@@ -12,20 +12,20 @@
 4. Minimum distance between repeats
 5. Maximum distance between repeats
 6. cut off value
-### Resultados
+### Results
 The file of results its named **sorted results** and it has the following:
 
 | ID | GL     | DR | RDI| TR | C   | AL    | COV |
 | :-------:     | :----: | :-:| :-:| :-:| :-: | :-----:|:---:|
 | nc_024789.1   |  109867| 58 | 19 | 77 |70.08| 14.28  | Pass|
 
-GL: Genome length
-DR: Direct repeats
-DRI: Direct repeats inverted
-TR: Total repeats 
-C: Coefficient
-AL: Average length
-COF: Cut off value
+**GL**: Genome length
+**DR**: Direct repeats
+**DRI**: Direct repeats inverted
+**TR**: Total repeats 
+**C**: Coefficient
+**AL**: Average length
+**COF**: Cut off value
 
 ### Genome order
 This script can take as an input more than one genome exclusively in **FASTA FORMAT**, those genomes should be ordered in a list that can be build with <p>find *.fasta > genome_order</p>
