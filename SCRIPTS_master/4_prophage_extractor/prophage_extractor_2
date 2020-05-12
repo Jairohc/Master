@@ -1,0 +1,56 @@
+#! /bin/bash
+#Region_Extractor_script
+echo "Script_test octubre"
+echo "In order to use this script firts you need to install: X"
+echo "Your actual directory is $PWD"
+echo "Program versions used: X"
+echo "Usage bash 1-bacteriophage_sequence 2-blastdbase 3-number_bases, 4- query percentage cover"
+#VAR DEFINITION_DIRECTORY
+actual_dir=$PWD
+sequence=$1
+genome_order=$2
+
+    lenght_sequence_var=$(grep -v ">" $sequence | wc | awk '{print $3-$1}')
+    echo "Sequence query is $lenght_sequence_var"
+
+
+        while read line <&3; do 
+            cat $line >> data_for_blastdb
+        done 3<genome_order
+        makeblastdb -in data_for_blastdb -dbtype nucl -out base
+        rm data_for_blastdb
+
+
+
+    echo "We're doing blast, please wait..."
+		blastn -db base -query $sequence -out temporal_file -outfmt 11
+		blast_formatter -archive temporal_file -outfmt "6 qaccver saccver pident length mismatch gapopen qsart qend sstart send evalue sstrand" -out tabular_results
+		rm temporal_file
+    echo "Results processing"
+    cat tabular_results | cut -f2 | sort | uniq | tr "[:upper:]" "[:lower:]"> genome_order_2
+        while read line <&3; do 
+            init=$(grep -i "$line" tabular_results | cut -f8 | sort -n | head -n1)
+            final=$(grep -i "$line" tabular_results | cut -f9 | sort -n | tail -n1) 
+            strand=$(grep -i "$line" tabular_results | cut -f11 | sort | uniq ) 
+            echo "$init to $final"
+
+            if [[ $strand = plus ]]; then
+                echo "Extracting plus strand of $line for $init to $final..."
+                extractseq --sequence "$line".fasta -regions "$init":"$final" --outseq "$line"_prophage
+                echo "Downloading plus strand gb file of "$line"..."
+                esearch -db nucleotide -query "$line" | efetch -seq_start "$init" -seq_stop "$final" -stran plus -format gbwithparts > "$line".gb
+            elif [[ $strand = minus ]]; then
+                echo "Extracting minus strand of $line for $init to $final..."
+                extractseq --sequence "$line".fasta -regions "$init":"$final" --outseq "$line"_rev_tmp
+                revseq -sequence "$line"_rev_tmp -outseq "$line"_prophage
+                echo "Downloading minus strand gb file of "$line"..."
+                esearch -db nucleotide -query "$line" | efetch -seq_start "$init" -seq_stop "$final" -strand minus -format gbwithparts > "$line".gb
+            fi
+        done 3<genome_order_2
+    rm genome_order_2
+    rm base*
+    cat *prophage > prophage_genomes
+    rm *_prophage
+    rm *tmp
+    echo "results_generated"
+    exit

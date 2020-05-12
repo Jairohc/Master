@@ -1,0 +1,23 @@
+#! /bin/bash
+# loop for prokka multiple genome annotation
+actual_dir=$PWD
+prokka_bin=$1
+genomes_dir=$2
+outdir=$3
+mkdir gff_files
+cd $genomes_dir
+find *.fasta > list_remove
+
+while read line <&3; do
+	$prokka_bin $line -outdir $outdir/$line
+done 3<list_remove
+
+while read line <&3; do
+	cd $outdir/$line
+	mv *.gff $actual_dir/gff_files/$line
+	cat * > final.gff
+done 3<list_remove
+
+cd $genomes_dir
+rm list_remove
+exit

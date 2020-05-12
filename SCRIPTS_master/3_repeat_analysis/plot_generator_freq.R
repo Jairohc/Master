@@ -1,0 +1,7 @@
+  library(svglite)
+svglite("repeat-match-parser-one-by-one.svg")
+getwd()
+library(ggplot2)
+file <- read.table("final_file", quote="\"", comment.char="")
+ggplot(file, aes(x = V1, y = V2)) + stat_ydensity(adjust = 0.02, aes(fill = V2)) + geom_point(alpha= 1, color = "blue")
+dev.off()

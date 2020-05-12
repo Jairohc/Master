@@ -1,0 +1,25 @@
+#!/bin/bash 
+actual_dir=$PWD
+sequence=$1
+right_reads=$2
+left_reads=$3
+mkdir results
+cp $sequence /results
+cd results
+echo "alginment in process..."
+samtools faidx $sequence
+bwa index $sequence
+bwa mem $sequence $right_reads $left_reads > aln-pe_bwa.sam 
+echo "alginment finished"
+echo "Converting sam to bam..."
+samtools view -uS -o aln-pe_bwa.bam aln-pe_bwa.sam
+samtools sort -T aln.tmp.sort -o aln-pe_bwa_sorted.bam aln-pe_bwa.bam
+samtools index aln-pe_bwa_sorted.bam 
+echo "control point"
+samtools rmdup aln-pe_bwa_sorted.bam aln-pe_bwa_rmdup.bam 
+samtools index aln-pe_bwa_rmdup.bam
+echo "finished"
+cd $actual_dir 
+rm *fasta.*
+cd results 
+rm aln-pe_bwa.sam aln-pe_bwa.bam aln-pe_bwa_sorted.bam*
