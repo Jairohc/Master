@@ -32,8 +32,8 @@ The file of results its named **sorted results** and it has the following column
 **COF**: Cut off value
 
 ### Genome order
-This script can take as an input more than one genome exclusively in **FASTA FORMAT**, those genomes should be ordered in a list that can be build with **find *.fasta > genome_order**
-we suggest to change some characters as ",,.,_,-,|,+," for values that doesn't interrupt the complete identifier, and also use complete genome names to make easier results interpretation.
+This script can take as an input more than one genome exclusively in **FASTA FORMAT**, those genomes should be ordered in a list that can be build with **find** *.fasta > **genome_order**
+we suggest to use complete genome names to make easier results interpretation.
 
 ### Coefficient
 It is calculated from the relation between the total number of direct repeats and the genome length, it attemps to normalize genome lengths to avoid mistakes of interpretation due to rich short repeat genomes. Also it is use to divide sequences in two groups based on the **cut off value** which is defined by the user.
