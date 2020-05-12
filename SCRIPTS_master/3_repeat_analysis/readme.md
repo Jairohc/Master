@@ -13,6 +13,9 @@ For more details please check (https://mummer4.github.io/)
 4. Minimum distance between repeats
 5. Maximum distance between repeats
 6. cut off value
+
+### Example 
+bash repeat-match-parser.sh **genome_order** **12** **35** **120** **1002**
 ### Results
 The file of results its named **sorted results** and it has the following:
 
