@@ -14,8 +14,9 @@ Determination of cumulative distribution of direct repeats in only one genome.
 4. Minimum distance between repeats
 5. Maximum distance between repeats
 6. Cut off value
-
-### Example 
+### Execution permissions
+Don't forget give execution permissions to script files by typing **chmod +x** repeat-match-parser.sh
+### Example
 bash repeat-match-parser.sh **genome_order** **12** **35** **120** **1002** **80.72**
 ### Results
 The file of results its named **sorted results** and it has the following columns:
